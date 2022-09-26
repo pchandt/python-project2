@@ -23,15 +23,15 @@ def riddle():
                ]
     # list of answers to riddles
     riddle_answer = ['book',
-           'all',
-           'future',
-           'bank',
-           'piano',
-           'dictionary',
-           'staircase',
-           'coin',
-           'cold',
-           'comb']
+                     'all',
+                     'future',
+                     'bank',
+                     'piano',
+                     'dictionary',
+                     'staircase',
+                     'coin',
+                     'cold',
+                     'comb']
 
     # display statement when player start to solve riddle.
     print(
