@@ -1,48 +1,48 @@
 #!/usr/bin/python3
-import crayons
-import random
-
 """Driving a simple game framework with
    a dictionary object | Alta3 Research"""
+
+# import random
+import random
 
 
 def riddle():
     """A function to solve riddle """
 
     # list of riddles
-    riddles = ['What has words, but never speaks?',
-               'What month of the year has 28 days?',
-               'What is always in front of you but can’t be seen?',
-               'I have branches, but no fruit, trunk or leaves. What am I?',
-               'What has many keys but can’t open a single lock?',
-               'Where does today come before yesterday?',
-               'What goes up and down but doesn’t move?',
-               'What has a head and a tail but no body?',
-               'What can you catch, but not throw?',
-               'What has many teeth, but can’t bite?'
+    riddles = ["What has words, but never speaks?",
+               "What month of the year has 28 days?",
+               "What is always in front of you but can’t be seen?",
+               "I have branches, but no fruit, trunk or leaves. What am I?",
+               "What has many keys but can’t open a single lock?",
+               "Where does today come before yesterday?",
+               "What goes up and down but doesn’t move?",
+               "What has a head and a tail but no body?",
+               "What can you catch, but not throw?",
+               "What has many teeth, but can’t bite?"
                ]
     # list of answers to riddles
-    riddle_answer = ['book',
-                     'all',
-                     'future',
-                     'bank',
-                     'piano',
-                     'dictionary',
-                     'staircase',
-                     'coin',
-                     'cold',
-                     'comb']
+    riddle_answer = ["book",
+                     "all",
+                     "future",
+                     "bank",
+                     "piano",
+                     "dictionary",
+                     "staircase",
+                     "coin",
+                     "cold",
+                     "comb"]
 
     # display statement when player start to solve riddle.
     print(
-        'If you get 5 correct answers, you will get "treasure".\n'
-        'If you get 10 correct answers you will win the game.\n'
-        'If you get 10 incorrect answers you will lose the game.\n')
+        "If you get 5 correct answers, you will get 'treasure'.\n"
+        "If you get 10 correct answers you will win the game.\n"
+        "If you get 10 incorrect answers you will lose the game.\n")
 
     # the player MUST type something in
     # otherwise input will keep asking
-    user_input = ''
-    while user_input == '':
+    user_input = ""
+    while user_input == "":
         # ask user to choose one of two options
         user_input = input("Enter 'go' to start the game and 'quit' to stop the game.\n>")
 
@@ -50,7 +50,8 @@ def riddle():
         # .lower() makes it lower case, .split() turns it to a list
         user_input = user_input.lower().split(" ", 1)
 
-        if user_input[0] == 'go':
+        # if user type go
+        if user_input[0] == "go":
             # random index of riddle and ans lists
             random_riddles = random.sample(range(len(riddles)), 10)
 
@@ -62,9 +63,9 @@ def riddle():
             for i in random_riddles:
                 print((riddles[i]))
                 # collect answer in one word from user
-                answer = ''
-                while answer == '':
-                    answer = input('Please enter your answer in one word: ')
+                answer = ""
+                while answer == "":
+                    answer = input("Please enter your answer in one word: ")
                     # normalizing input:
                     answer = answer.lower().split(" ", 1)
 
@@ -73,7 +74,7 @@ def riddle():
                 if answer[0] == riddle_answer[i]:
                     print("You are right!")
                     correct_ans += 1
-                    print(correct_ans)
+                    print(f"Correct answer count = {correct_ans}\n")
 
                     # if count of correct answers is equal to 5 add treasure to their inventory
                     if correct_ans == 5:
@@ -90,15 +91,15 @@ def riddle():
                 else:
                     print("Sorry! You're wrong!")
                     incorrect_ans += 1
-                    print(incorrect_ans)
+                    print(f"Incorrect answer count = {incorrect_ans}\n")
 
                     # if count of incorrect answers is equal to 10 user loses the game and game ends.
                     if incorrect_ans == 10:
                         print("SORRY, YOU LOSE THE GAME.")
                         exit()
 
-        # if user decides to quit the game
-        if user_input == 'quit':
+        # if user type "quit"
+        if user_input == "quit":
             print("Bye bye.")
 
 
@@ -128,7 +129,7 @@ def showStatus():
     # check if there's a mystery in the room, if so print it
     if "mystery" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['mystery'])
-    print(crayons.red("---------------------------"))
+    print("---------------------------")
 
 
 # an inventory, which is initially empty
@@ -209,7 +210,7 @@ while True:
 
         # increase the number of count after each move
         count_move += 1
-        print(f"Move = {count_move}")
+        print(f"Move count = {count_move}")
         # alternate condition to lose the game.
         if count_move == 25:
             print("YOU LOSE THE GAME.")
@@ -250,6 +251,7 @@ while True:
     # 1. if the current room contains a riddle.
     # 2. if the player wishes to solve riddle.
     if move[0] == 'solve':
+        # check if the room contains riddle
         if 'mystery' in rooms[currentRoom] and move[1] in rooms[currentRoom]['mystery']:
             # call the function to play riddle
             riddle()
