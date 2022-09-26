@@ -7,6 +7,9 @@ import random
 
 
 def riddle():
+    """A function to solve riddle """
+
+    # list of riddles
     riddles = ['What has words, but never speaks?',
                'What month of the year has 28 days?',
                'What is always in front of you but can’t be seen?',
@@ -18,7 +21,8 @@ def riddle():
                'What can you catch, but not throw?',
                'What has many teeth, but can’t bite?'
                ]
-    ans = ['book',
+    # list of answers to riddles
+    riddle_answer = ['book',
            'all',
            'future',
            'bank',
@@ -28,50 +32,74 @@ def riddle():
            'coin',
            'cold',
            'comb']
+
+    # display statement when player start to solve riddle.
     print(
         'If you get 5 correct answers, you will get "treasure".\n'
         'If you get 10 correct answers you will win the game.\n'
         'If you get 10 incorrect answers you will lose the game.\n')
+
+    # the player MUST type something in
+    # otherwise input will keep asking
     user_input = ''
     while user_input == '':
+        # ask user to choose one of two options
         user_input = input("Enter 'go' to start the game and 'quit' to stop the game.\n>")
 
-    if user_input == 'go':
-        random_riddles = random.sample(range(len(riddles)), 10)
+        # normalizing input:
+        # .lower() makes it lower case, .split() turns it to a list
+        user_input = user_input.lower().split(" ", 1)
 
-        correct_ans = 0
-        incorrect_ans = 0
-        for i in random_riddles:
-            print((riddles[i]))
-            answer = input('Please enter your answer in one word: ')
+        if user_input[0] == 'go':
+            # random index of riddle and ans lists
+            random_riddles = random.sample(range(len(riddles)), 10)
 
-            if answer == ans[i]:
-                print("You are right!")
-                correct_ans += 1
-                print(correct_ans)
+            # initial count of correct answers
+            correct_ans = 0
+            # initial count of incorrect answers
+            incorrect_ans = 0
+            # print riddle at index i
+            for i in random_riddles:
+                print((riddles[i]))
+                # collect answer in one word from user
+                answer = ''
+                while answer == '':
+                    answer = input('Please enter your answer in one word: ')
+                    # normalizing input:
+                    answer = answer.lower().split(" ", 1)
 
-                if correct_ans >= 5:
-                    print("You got your treasure")
-                    inventory.append("treasure")
+                # if user answer matches the answer in the list named riddle_answer
+                # display they are correct and increase the count of correct answer
+                if answer[0] == riddle_answer[i]:
+                    print("You are right!")
+                    correct_ans += 1
+                    print(correct_ans)
 
-                elif correct_ans == 10:
-                    print("CONGRATULATIONS! YOU WON THE GAME.")
-                    exit()
+                    # if count of correct answers is equal to 5 add treasure to their inventory
+                    if correct_ans == 5:
+                        print("You got your treasure")
+                        inventory.append("treasure")
 
-            else:
-                print("Sorry! You're wrong!")
-                incorrect_ans += 1
-                print(incorrect_ans)
+                    # if count of correct answers is equal to 10 user wins the game and game ends
+                    elif correct_ans == 10:
+                        print("CONGRATULATIONS! YOU WON THE GAME.")
+                        exit()
 
-                if incorrect_ans == 10:
-                    print("SORRY, YOU LOSE THE GAME.")
-                    exit()
+                # if user answer doesn't match to the answer list display sorry message
+                # increase the count of incorrect answers
+                else:
+                    print("Sorry! You're wrong!")
+                    incorrect_ans += 1
+                    print(incorrect_ans)
 
-        else:
-            print(crayons.yellow("Better luck next time."))
+                    # if count of incorrect answers is equal to 10 user loses the game and game ends.
+                    if incorrect_ans == 10:
+                        print("SORRY, YOU LOSE THE GAME.")
+                        exit()
 
-    if user_input == 'quit':
-        print("Bye bye.")
+        # if user decides to quit the game
+        if user_input == 'quit':
+            print("Bye bye.")
 
 
 def showInstructions():
@@ -97,11 +125,9 @@ def showStatus():
     # check if there's an item in the room, if so print it
     if "item" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['item'])
+    # check if there's a mystery in the room, if so print it
     if "mystery" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['mystery'])
-
-        #
-
     print(crayons.red("---------------------------"))
 
 
@@ -181,9 +207,10 @@ while True:
         # therefore, "get golden key" becomes ["get", "golden key"]
         move = move.lower().split(" ", 1)
 
-        # count increment after each move
+        # increase the number of count after each move
         count_move += 1
-        print(count_move)
+        print(f"Move = {count_move}")
+        # alternate condition to lose the game.
         if count_move == 25:
             print("YOU LOSE THE GAME.")
             exit()
@@ -215,15 +242,20 @@ while True:
             # tell them they can't get it
             print('Can\'t get ' + move[1] + '!')
 
-        # If a player enters a room with a monster
+    # If a player enters a room with a monster
     if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
         print('A monster has got you... GAME OVER!')
         break
 
+    # 1. if the current room contains a riddle.
+    # 2. if the player wishes to solve riddle.
     if move[0] == 'solve':
         if 'mystery' in rooms[currentRoom] and move[1] in rooms[currentRoom]['mystery']:
+            # call the function to play riddle
             riddle()
+            # delete the item key:value pair from the room's dictionary
             del rooms[currentRoom]['mystery']
+            # if player gets treasure in their inventory by solving riddle then delete treasure from its room
             if 'treasure' in inventory:
                 del rooms['Guest room']['item']
         else:
